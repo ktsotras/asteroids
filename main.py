@@ -9,6 +9,7 @@ from asteroidfield import AsteroidField
 from shot import Shot
 
 def main():
+    asteroids_killed = 0
     pygame.init()
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -38,8 +39,13 @@ def main():
                 return
         updatable.update(dt)
         for asteroid in asteroids:
+            for shot in shots:
+                if shot.collision(asteroid):
+                    asteroids_killed += 1
+                    shot.kill()
+                    asteroid.kill()
             if asteroid.collision(player):
-                print("Game over!")
+                print(f"Game over!\nYou killed {asteroids_killed} asteroids!")
                 sys.exit()
             
         screen.fill("black")
