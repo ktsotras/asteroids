@@ -10,6 +10,7 @@ from shot import Shot
 
 def main():
     asteroids_killed = 0
+    lives_remaining = 3
     pygame.init()
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -47,12 +48,23 @@ def main():
                     if asteroid.split():
                         asteroids_killed += 1
             if asteroid.collision(player):
-                print(f"Game over!\nYou destroyed {asteroids_killed} asteroids!")
-                sys.exit()
+                if lives_remaining == 0:
+                    print(f"Game over!\nYou destroyed {asteroids_killed} asteroids!")
+                    sys.exit()
+                else:
+                    player.kill()
+                    drawable.empty()
+                    asteroids.empty()
+                    shots.empty()
+                    lives_remaining -= 1
+                    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-        text_screen = font.render(f"Score: {asteroids_killed}", False, "white", "black")  
+
+        score = font.render(f"Score: {asteroids_killed}", False, "white", "black")  
+        lives = font.render(f"Lives: {lives_remaining}", False, "white", "black")
         screen.fill("black")
-        screen.blit(text_screen, (0, 0))
+        screen.blit(score, (0, 0))
+        screen.blit(lives, (0, 24))
         for obj in drawable:
             obj.draw(screen)
         
