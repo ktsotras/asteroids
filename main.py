@@ -19,6 +19,8 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
+    font = pygame.font.SysFont("Times New Roman", 24)
+
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -47,8 +49,10 @@ def main():
             if asteroid.collision(player):
                 print(f"Game over!\nYou destroyed {asteroids_killed} asteroids!")
                 sys.exit()
-            
+
+        text_screen = font.render(f"Score: {asteroids_killed}", False, "white", "black")  
         screen.fill("black")
+        screen.blit(text_screen, (0, 0))
         for obj in drawable:
             obj.draw(screen)
         
