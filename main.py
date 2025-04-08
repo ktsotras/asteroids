@@ -1,6 +1,3 @@
-# this allows us to use code from
-# the open-source pygame library
-# throughout this file
 import pygame, sys
 from constants import *
 from player import Player
@@ -13,7 +10,7 @@ font = pygame.font.SysFont("Times New Roman", 24)
 
 def main():
     asteroids_killed = 0
-    lives_remaining = 1
+    lives_remaining = 3
     
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -38,8 +35,8 @@ def main():
     Shot.containers = (shots, updatable, drawable)
 
     while pygame.get_init():
+        lives = font.render(f"Lives Remaining: {lives_remaining}", False, "white", "black")
         score = font.render(f"Score: {asteroids_killed}", False, "white", "black")  
-        lives = font.render(f"Lives: {lives_remaining}", False, "white", "black")
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -65,8 +62,9 @@ def main():
                 player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
         screen.fill("black")
-        screen.blit(score, (0, 0))
-        screen.blit(lives, (0, 24))
+        screen.blit(lives, (0, 0))
+        screen.blit(score, (0, 24))
+
         for obj in drawable:
             obj.draw(screen)
         
@@ -78,7 +76,6 @@ def main():
             sys.exit()
 
 def game_over(score):
-    print("broke out of loop")
     pygame.display.quit()
     screen = pygame.display.set_mode((300, 100))
     score_text = font.render(f"Final Score: {score}", False, "white", "black")
